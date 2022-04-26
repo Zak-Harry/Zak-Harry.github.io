@@ -1,0 +1,206 @@
+{% extends 'sidebar.html.twig' %}
+
+{% block title %}Edition du profil{% endblock %}
+
+{% block page_contents %}
+
+    <!-- !Partie centrale-->
+    <div class="fixed flex flex-col h-full w-full ml-14 mb-10 md:ml-64 bg-slate-100 dark:bg-slate-800 dark:text-white overflow-auto">
+
+        <!-- Title -->
+        <div class="sm:pl-24 pl-10 py-14 pt-24">
+            <h1 class="md:text-6xl text-4xl leading-6 text-blue-600 dark:text-white">
+                {% if user.id is null %}
+                Ajout d'un nouveau salarié
+                {% else %}
+                Edition du profil
+                {% endif %}
+            </h1>
+        </div>
+
+        <!-- BLOCK START-->
+        <div class="mx-2 sm:px-10 flex flex-wrap">
+            <!-- Left Side -->
+            <div class="md:mx-2">
+                {% if user.id is not null %}
+
+                <!-- Profil Card -->
+                <div class="bg-white pt-5 pb-8 px-5 rounded-tl-lg rounded-bl-lg border-t-4 border-blue-600 max-w-max dark:bg-slate-900 dark:text-white">
+                    <div class="image overflow-hidden my-4 max-w-xs ">
+                        <img class="h-auto w-full mx-auto" src="{{ user.picture ?? null }}" alt="">
+                    </div>
+                    <h1 class="text-gray-900 dark:text-white font-bold text-xl leading-8 my-1">{{ user.firstname ?? null}} {{ user.lastname ?? null}}</h1>
+                    <h3 class="text-gray-600 dark:text-white font-lg text-semibold leading-6">{{ user.job.name ?? null}}</h3>
+                    <p class="text-sm dark:text-white text-gray-500 leading-6">Département : {{ user.departement.name ?? null}}</p>
+                    
+                    <ul class="bg-gray-100 text-gray-600 hover:shadow py-2 px-3 mt-5 divide-y rounded shadow-sm dark:bg-slate-800 dark:text-white">
+                        <li class="flex items-center py-3">
+                            <span>Status</span>
+                            <span class="ml-auto">
+                                {% if user.status %}
+                                    <span class="bg-green-500 py-1 px-2 rounded text-white text-sm"> Actif </span>
+                                {% else %}
+                                    <span class="bg-red-700 py-1 px-2 rounded text-white text-sm"> Inactif </span>
+                                {% endif %}</span>
+                            </li>
+                            <li class="flex items-center py-3">
+                                <span>Employé depuis</span>
+                                <span class="ml-auto">{{ user.createdat | date("d/m/Y") }}</span>
+                            </li>
+                    </ul>
+                </div>
+            {% endif %}
+            <!-- End Profile Card --> 
+
+                <div class="my-4"></div>
+            </div>
+
+            <!-- Right Side -->
+            <div class="max-w-max">
+
+                <!-- Section A propos-->
+
+                <div class="bg-white p-4 shadow-sm rounded-tr-lg rounded-br-lg border-t-4 border-blue-600 max-w-max dark:bg-slate-900 dark:text-white overflow-x-auto">
+                    {{ form_start(profil) }}
+
+                    <div class="flex items-center space-x-2 font-semibold text-gray-900 dark:text-white leading-8 my-4">
+                    <span clas="text-green-500">
+                        <svg class="h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                        </svg>
+                    </span>
+                    <span class="tracking-wide">A propos</span>
+                </div>
+                
+                <div class=" w-[36rem] sm:w-[60rem]">
+                    <div class="grid md:grid-cols-2 text-sm">
+
+                        <div class="singleCellSecondSection ">
+                            <div class="px-4 py-2 font-semibold">Prénom</div>
+                            {% if is_granted('ROLE_RH')%}
+                            <div class="px-4 py-2 text-black">{{ form_widget(profil.firstname) }}</div>
+                            {% else %}
+                            <div class="px-4 py-2">{{ user.firstname }}</div><div class="hidden">{{ form_widget(profil.firstname) }}</div>
+                            {% endif %}
+                        </div>
+
+                        <div class="singleCellSecondSection">
+                            <div class="px-4 py-2 font-semibold">Nom</div>
+                            {% if is_granted('ROLE_RH')%}
+                            <div class="px-4 py-2 text-black">{{ form_widget(profil.lastname) }}</div>
+                            {% else %}
+                            <div class="px-4 py-2">{{ user.lastname }}</div><div class="hidden">{{ form_widget(profil.lastname) }}</div>
+                            {% endif %}
+                        </div>
+
+                        {% if user.id is not null %}
+                            <div class="singleCellSecondSection">
+                                <div class="px-4 py-2 font-semibold">Password : </div>
+                                <div class="px-4 py-2 text-black">{{ form_widget(profil.password) }}</div>
+                            </div>
+                            <div class="singleCellSecondSection">
+                                <div class="px-4 py-2 font-semibold">Confirmation du mot de passe : </div>
+                                <div class="px-4 py-2 font-semibold">
+                                    <input type="password" name="confirm_password">
+                                </div>
+                            </div>
+                        {% endif %}
+
+                            <div class="singleCellSecondSection">
+                                <div class="px-4 py-2 font-semibold">Photo : </div>
+                                <input class="px-4 py-2 dark:text-white" type="file"/>
+                            </div>
+                            <div class="singleCellSecondSection">
+                                <div class="px-4 py-2 font-semibold">Anniversaire</div>
+                                <div class="px-4 py-2 dark:text-black">{{ form_widget(profil.dateOfBirth) }}</div>
+                            </div>
+                            <div class="singleCellSecondSection">
+                                <div class="px-4 py-2 font-semibold">Téléphone privé</div>
+                                <div class="px-4 py-2 text-black">{{ form_widget(profil.phonenumberpro) }}</div>
+                            </div>
+                            <div class="singleCellSecondSection">
+                                <div class="px-4 py-2 font-semibold">Téléphone professionnel</div>
+                                <div class="px-4 py-2 text-black">{{ form_widget(profil.phonenumber) }}</div>
+                            </div>
+                            <div class="singleCellSecondSection">
+                                <div class="px-4 py-2 font-semibold">Email pro : </div>
+                                <div class="px-4 py-2 text-black">
+                                        {% if user.id is not null %}
+                                            {{ form_widget(profil.emailpro) }}
+                                        {% else %}
+                                            <p> L'adresse sera créé automatiquement</p>
+                                        {% endif %}
+                                </div>
+                            </div>
+                            <div class="singleCellSecondSection">
+                                <div class="px-4 py-2 font-semibold">Email privé : </div>
+                                <div class="px-4 py-2 text-black">
+                                    {{ form_widget(profil.email) }}
+                                </div>
+                            </div>
+                            <div class="singleCellSecondSection">
+                                <div class="px-4 py-2 font-semibold">Adresse</div>
+                                <div class="px-4 py-2 text-black">{{ form_widget(profil.address) }}</div>
+                            </div>
+                            <div class="singleCellSecondSection">
+                                <div class="px-4 py-2 font-semibold">Code postal : </div>
+                                <div class="px-4 py-2 text-black">{{ form_widget(profil.zipcode) }}</div>
+                            </div>
+                            <div class="singleCellSecondSection">
+                                <div class="px-4 py-2 font-semibold">Ville : </div>
+                                <div class="px-4 py-2 text-black">{{ form_widget(profil.city) }}</div>
+                            </div>
+
+                            <div class="singleCellSecondSection">
+                                <div class="px-4 py-2 font-semibold">RIB : </div>
+                                <div class="px-4 py-2 text-black">{{ form_widget(profil.rib) }}</div>
+                            </div>
+                            <div class="singleCellSecondSection">
+                                <div class="px-4 py-2 font-semibold">Status : </div>                                
+                                {% if is_granted('ROLE_RH')%}
+                                <div class="px-4 py-2 text-black">{{ form_widget(profil.status) }}</div>
+                                {% else %}
+                                <div class="px-4 py-2">Actif</div><div class="hidden">{{ form_widget(profil.status) }}</div>
+                                {% endif %}
+                            </div>
+                            <div class="singleCellSecondSection">
+                                <div class="px-4 py-2 font-semibold">Rôle : </div>
+                                {% if is_granted('ROLE_RH')%}
+                                <div class="px-4 py-2 text-black">{{ form_widget(profil.role) }}</div>
+                                {% else %}
+                                <div class="px-4 py-2">{{ user.role }}</div><div class="hidden">{{ form_widget(profil.role) }}</div>
+                                {% endif %}
+                            </div>
+                            <div class="singleCellSecondSection">
+                                <div class="px-4 py-2 font-semibold">Job : </div>
+                                {% if is_granted('ROLE_RH')%}
+                                <div class="px-4 py-2 text-black">{{ form_widget(profil.job) }}</div>
+                                {% else %}
+                                <div class="px-4 py-2">{{ user.job.name }}</div><div class="hidden">{{ form_widget(profil.job) }}</div>
+                                {% endif %}
+                            </div>
+
+                            <div class="singleCellSecondSection">
+                                <div class="px-4 py-2 font-semibold">Département : </div>
+                                {% if is_granted('ROLE_RH')%}
+                                <div class="px-4 py-2 text-black">{{ form_widget(profil.departement) }}</div>
+                                {% else %}
+                                <div class="px-4 py-2">{{ user.departement.name }}</div><div class="hidden">{{ form_widget(profil.departement) }}</div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+
+                    <button class="bg-blue-500 text-white px-16 py-3 rounded-md text-1xl font-medium hover:bg-blue-700 transition duration-300 m-6 focus:bg-gradient-to-tl from-green-400 via-sky-600 to-indigo-900 focus:text-white">Enregistrer</button>
+
+                </div>
+                {{ form_errors(profil) }}
+                {{ form_end(profil) }}
+                <!-- Fin section A propos -->
+                <div class="my-4"></div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,117 @@
+{% extends 'sidebar.html.twig' %}
+
+{% block title %}QuickWork - Mes documents{% endblock %}
+
+{% block page_contents %}
+
+<script defer src="{{ asset('/js/toggleDocs.js') }}"></script>
+
+
+<!-- Partie centrale -->
+<div class="fixed flex flex-col h-full ml-14 mb-10 md:ml-64 bg-slate-100 dark:bg-slate-800 dark:text-white w-full text-left overflow-auto">
+
+  <!-- Title (accueil) -->
+  <div class="pl-24 py-14 pt-24">
+      <h1 class="md:text-6xl text-4xl leading-6 text-blue-600 dark:text-white">Mes documents</h1>
+  </div>
+
+  <!-- Liste des types de docs -->
+  <div class="border-l-2 border-gray-400 ml-2 md:max-w-max md:ml-24 md:my-14 pt-8">
+    <!-- Fiches de paie -->
+    <div class="divSingleCard">
+      <button class="buttonSectionDocumentation">
+        <div class="transform transition hover:-translate-y-2 ml-10 relative flex items-start md:items-center px-6 py-4 bg-blue-600 rounded  flex-col md:flex-row space-y-4 md:space-y-0">
+          <!-- Point sur ligne verticale -->
+          <div class="w-5 h-5 bg-blue-600 absolute -left-10 transform -translate-x-2/4 rounded-full z-10 mt-2 md:mt-0"></div>
+
+          <!-- Ligne connecté au contenu -->
+          <div class="w-10 h-1 bg-blue-300 absolute -left-10 z-0"></div>
+
+          <!-- Contenu coloré -->
+          <div class="flex-auto">
+            <h1 class="md:text-xl text-lg font-bold text-white">Fiches de paie</h1>
+          </div>
+        </div>
+      </button>
+      <!-- Liste des docs -->
+      <div class="divListDocumentationsHidden">
+          {% for payslip in user.payslips %}
+            <a href="{{ payslip.link }}" class="linkDocumentations" download> Fiche de Paie {{payslip.createdAt|date('d/m/Y')}}</a>
+          {% endfor %}
+      </div>
+    </div>
+
+    <!-- Documentation de l'entreprise -->
+    <div class="divSingleCard">
+      <button class="buttonSectionDocumentation">
+        <div class="transform transition hover:-translate-y-2 ml-10 relative flex items-start md:items-center  px-6 py-4 bg-pink-600 rounded flex-col md:flex-row space-y-4 md:space-y-0">
+          <!-- Point sur ligne verticale -->
+          <div class="w-5 h-5 bg-pink-600 absolute -left-10 transform -translate-x-2/4 rounded-full z-10 mt-2 md:mt-0"></div>
+
+          <!-- Ligne connecté au contenu -->
+          <div class="w-10 h-1 bg-pink-300 absolute -left-10 z-0"></div>
+
+          <!-- Contenu coloré -->
+          <div class="flex-auto">
+            <h1 class="md:text-xl text-lg font-bold text-white">Documentation de l'entreprise</h1>
+          </div>
+        </div>
+      </button>
+      <!-- Liste des docs -->
+      <div class="divListDocumentationsHidden">
+          {% for documentation in user.documentations %}
+            <a href="{{ documentation.link }}" class="linkDocumentations" download> Document Interne {{documentation.createdAt|date('d/m/Y')}}</a>
+          {% endfor %}
+      </div>
+    </div>
+
+    <!-- Réglement Intérieur -->
+    <div class="divSingleCard">
+      <button class="buttonSectionDocumentation">
+        <div class="transform transition hover:-translate-y-2 ml-10 relative flex items-start md:items-center px-6 py-4 bg-green-600  rounded flex-col md:flex-row space-y-4 md:space-y-0">
+          <!-- Point sur ligne verticale -->
+          <div class="w-5 h-5 bg-green-600 absolute -left-10 transform -translate-x-2/4 rounded-full z-10 mt-2 md:mt-0"></div>
+
+          <!-- Ligne connecté au contenu -->
+          <div class="w-10 h-1 bg-green-300 absolute -left-10 z-0"></div>
+
+          <!-- Contenu coloré -->
+          <div class="flex-auto">
+            <h1 class="md:text-xl text-lg font-bold text-white">Réglement Intérieur</h1>
+          </div>
+        </div>
+      </button>
+      <!-- Liste des docs -->
+      <div class="divListDocumentationsHidden">
+          <a href="{{asset ('r__glement_int__rieur_quickwork.pdf')}}" class="linkDocumentations">Réglement Intérieur 2022</a>
+      </div>
+    </div>
+
+    <!--Contrat -->
+    <div class="divSingleCard">
+      <button class="buttonSectionDocumentation">
+        <div class="transform transition hover:-translate-y-2 ml-10 relative flex items-start md:items-center px-6 py-4 bg-purple-600  rounded flex-col md:flex-row space-y-4 md:space-y-0">
+            <!-- Point sur ligne verticale -->
+            <div class="w-5 h-5 bg-purple-600 absolute -left-10 transform -translate-x-2/4 rounded-full z-10 mt-2 md:mt-0"></div>
+
+            <!-- Ligne connecté au contenu -->
+            <div class="w-10 h-1 bg-purple-300 absolute -left-10 z-0"></div>
+
+            <!-- Contenu coloré -->
+            <div class="flex-auto">
+              <h1 class="md:text-xl text-lg font-bold text-white">Contrat</h1>
+            </div>
+        </div>
+      </button>
+      <!-- Liste des docs -->
+      <div class="divListDocumentationsHidden">
+        {% for contrat in user.contracts %}
+          <a href="{{ contrat.link }}" class="linkDocumentations" download> Contrat {{contrat.createdAt|date('d/m/Y')}}</a>
+        {% endfor %}
+      </div>
+    </div>
+
+</div>
+{% endblock %}
+
+

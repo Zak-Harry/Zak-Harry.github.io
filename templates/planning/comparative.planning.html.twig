@@ -1,0 +1,120 @@
+{% extends 'sidebar.html.twig' %}
+
+{% block title %}Mon planning{% endblock %}
+
+{% block page_contents %}
+<!--  !PARTIE CENTRALE-->
+
+
+
+<!-- Integration fo the new planning -->
+<div class="fixed flex flex-col ml-14 mb-10 md:ml-64 lg:ml-64 xl:ml-64 w-full h-full dark:bg-slate-800 dark:text-white overflow-auto">
+    <div class="w-[75rem]">
+
+    {% if effectiveWorkDay %}  
+
+        <!-- Title (accueil) -->
+        <div class="pl-10 sm:pl-24 py-14 pt-24">
+            <p class="text-4xl">Comparatif planning du : {{ plannedWorkDay['startshift'] ? plannedWorkDay['startshift']|date('d/m/Y') : ''}} </p> 
+        </div>
+
+        <!-- table effective hours vs planning -->
+        <div class="ml-10 sm:ml-24 mt-14 mb-8 py-6 px-4 dark:bg-slate-900 bg-slate-100 rounded-lg shadow-md max-w-max ">
+            <span class="text-xl text-left">Heures réalisées : </span>
+            {% if pos is same as false %}
+            <span class="text-lg text-center text-bold text-amber-600">{{gap}}</span>
+            {% else %}
+            <span class="text-lg text-center text-bold text-green-400">{{gap}}</span>
+            {% endif %}
+        </div>
+       
+        
+        <!-- Start TABLE -->        
+        <div class="mx-auto">  
+            <div class="grid sm:grid-cols-1 xl:grid-cols-2"> 
+
+                <table class="tableCompPlanning">
+                    <thead>    
+                        <tr class="bg-slate-500 dark:bg-opacity-20 text-center text-lg">
+                            <th class="py-4 px-6 bg-blue-800 font-bold text-white border-b border-grey-light">{{ plannedWorkDay['startshift'] ? plannedWorkDay['startshift']|date('d/m/Y') : ''}}</th>
+                            <th class="py-4 px-6 bg-blue-800 font-bold text-white border-b border-grey-light">Heures prévues</th>
+                            <th  class="py-4 px-6 bg-blue-800 font-bold text-white border-b border-grey-light">Heures réalisées</th>
+                        </tr>
+                    </thead>  
+                    <tbody class="tbodyCompPlanning text-center">
+                    
+                        <tr class="hover:bg-slate-50 dark:hover:bg-slate-800">
+                            <td class="py-4 px-6 border-b border-slate-300">Début de journée</td>
+                            <td class="py-4 px-6 border-b border-slate-300">
+                                {{ plannedWorkDay['startshift'] ? plannedWorkDay['startshift']|date('H:i') : '' }}
+                            </td>
+                            <td class="py-4 px-6 border-b border-slate-300">
+                                {{ effectiveWorkDay['startlog'] ? effectiveWorkDay['startlog']|date('H:i') : '' }}
+                            </td>
+                        </tr>
+                        <tr class="hover:bg-slate-50 dark:hover:bg-slate-800">
+                            <td class="py-4 px-6   border-b border-slate-300">Début de pause repas</td>
+                            <td class="py-4 px-6   border-b border-slate-300">
+                                {{ plannedWorkDay['startlunch'] ? plannedWorkDay['startlunch']|date('H:i') : '' }}
+                            </td>
+                            <td class="py-4 px-6   border-b border-slate-300">
+                                {{ effectiveWorkDay['startlunch'] ? effectiveWorkDay['startlunch']|date('H:i') : '' }}
+                            </td>
+                        </tr>
+                        <tr class="hover:bg-slate-50 dark:hover:bg-slate-800">
+                            <td class="py-4 px-6   border-b border-slate-300">Fin de pause repas</td>
+                            <td class="py-4 px-6   border-b border-slate-300">
+                                {{ plannedWorkDay['endlunch'] ? plannedWorkDay['endlunch']|date('H:i') : '' }}
+                            </td>
+                            <td class="py-4 px-6   border-b border-slate-300">
+                                {{ effectiveWorkDay['endlunch'] ? effectiveWorkDay['endlunch']|date('H:i') : '' }}
+                            </td>
+                        </tr>
+                        <tr class="hover:bg-slate-50 dark:hover:bg-slate-800">
+                            <td class="py-4 px-6   border-b border-slate-300">Fin de journée</td>
+                            <td class="py-4 px-6   border-b border-slate-300">
+                                {{ plannedWorkDay['endshift'] ? plannedWorkDay['endshift']|date('H:i') : '' }}
+                            </td>
+                            <td class="py-4 px-6   border-b border-slate-300">
+                                {{ effectiveWorkDay['endlog'] ? effectiveWorkDay['endlog']|date('H:i') : '' }}
+                            </td>
+                        </tr>
+                        <tr class="hover:bg-slate-50 dark:hover:bg-slate-800">
+                            <td class="py-4 px-6   border-b border-slate-300">Heures par jour</td>
+                            <td class="py-4 px-6   border-b border-slate-300">
+                                {{ plannedWorkDay['hoursplanned'] ? plannedWorkDay['hoursplanned']|date('H:i') : '' }}
+                            </td>
+                            <td class="py-4 px-6   border-b border-slate-300">
+                                {{ effectiveWorkDay['hoursworked'] ? effectiveWorkDay['hoursworked']|date('H:i') : '' }}
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <!-- End TABLE -->
+
+        {% else %}
+
+        <div class=" block w-2/3 text-center text-xl p-10 m-16 h-auto dark:bg-slate-900 rounded-lg border border-amber-500 ">
+    <div class="flex absolute h-10 w-10 m-2">
+        <span class="animate-ping absolute inline-flex h-full w-full rounded-full ">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+          </svg>
+        </span>
+        <span class="relative inline-flex rounded-full h-4 w-4 "></span>
+    </div>
+    <div class="m-2">
+        <p>Vous n'avez pas encore pouvez pas déclarer d'heures effectuées à ce jour.</p>
+        <p>Veuillez vous remplir votre <a class="max-w-fit text-blue-600 font-semibold hover:text-white " href="{{ path('home') }}">compteur</a></p>
+    </div>
+{% endif %}
+
+  </div>
+    </div>
+</div>
+<!-- End of the new integration -->
+
+
+{% endblock %}

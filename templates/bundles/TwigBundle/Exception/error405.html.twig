@@ -1,0 +1,25 @@
+
+{# To Access this custom 404 Page while in dev, use this route: http://localhost:8080/_error/405 #}
+
+
+{% extends 'base.html.twig' %}
+
+{% block content %}
+<!-- !Partie centrale-->
+<div class="fixed flex flex-col h-full  bg-slate-100 w-full  ">
+  <div class="bg-gradient-to-tl from-green-400 to-indigo-900 w-full h-screen flex justify-center items-center">
+    <div class ="bg-slate-200 p-8 shadow-2xl rounded-md">
+        <p class="text-center text-8xl font-bold text-indigo-700 mb-4"  >405</p>
+        <p class="text-center text-2xl font-bold text-indigo-700 mb-4"  >Tu ne peux pas accéder à cette page</p>
+        <img src="https://c.tenor.com/FQpS1jq_bFgAAAAd/peugeot-405.gif" alt="donut-405"> 
+        <p class="text-center mt-4"  >Tu as l'air perdu !</p>
+        <p class="text-center">Le URL demandé n'existe pas</p>
+       <div class="flex justify-center mt-4">
+       <a href={{ path('home') }}> <button class="bg-indigo-700 hover:bg-indigo-300 text-white font-bold py-2 px-4 rounded-full">
+          Retourner à l'accueil
+       </button></a>
+        
+      </div>
+    </div>
+    
+{% endblock %}
