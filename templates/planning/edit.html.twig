@@ -1,0 +1,61 @@
+{% extends 'sidebar.html.twig' %}
+
+{% block title %}Editer planning{% endblock %}
+
+{% block page_contents %}
+
+
+<!--  !PARTIE CENTRALE-->
+   
+<!-- Integration fo the new planning -->
+<div class="fixed flex flex-col ml-14 mb-10 md:ml-64 lg:ml-64 xl:ml-64 w-full h-full dark:bg-slate-800 dark:text-white overflow-auto">
+    <div class="w-[75rem]">
+        <!-- Title (accueil) -->
+        <div class="pl-10 sm:pl-24 py-14 pt-24">
+            <p class="text-4xl">Edition du planning</p>   
+        </div>
+
+        <!-- Start TABLE -->    
+
+{{ form_start(planning) }}
+<div class="mx-auto">  
+    <table class="sm:m-4 shadow-xl bg-slate-100 dark:bg-slate-900 ">
+        <tbody >
+            <tr>
+                <td class="py-4 px-6 border-b border-grey-light">Début de journée</td>
+                <td class="py-4 px-6 text-left border-b border-grey-light text-black">
+                    {{ form_widget(planning.startshift) }} 
+                </td>
+            </tr>
+            <tr>
+                <td class="py-4 px-6 border-b border-grey-light">Début de pause repas</td>
+                <td class="py-4 px-6 text-left border-b border-grey-light text-black">
+                    {{ form_widget(planning.startlunch) }}
+                </td>
+            </tr>
+            <tr>
+                <td class="py-4 px-6 border-b border-grey-light">Fin de pause repas</td>
+                <td class="py-4 px-6 text-left border-b border-grey-light text-black">
+                    {{ form_widget(planning.endlunch) }}
+                </td>
+            </tr>
+            <tr>
+                <td class="py-4 px-6 ">Fin de journée</td>
+                <td class="py-4 px-6 text-left  text-black">
+                    {{ form_widget(planning.endshift) }}
+                </td>
+            </tr>
+        </tbody>
+    </table>    
+</div>
+
+<!-- buttons save et back-->
+    <div class="m-4 mt-8">
+        <a href="{{ path('planned_departement')}}" class="text-white text-xl hover:bg-blue-800 font-semibold rounded-lg bg-blue-600 hover:text-white focus:outline-none focus:shadow-outline focus:bg-gray-100 hover:shadow-xs p-3 my-4 focus:bg-gradient-to-tl from-green-400 via-sky-600 to-indigo-900 focus:text-white mr-10">{{ button_label|default('Sauvegarder') }}</a>
+        <a href="{{ path('planned_departement') }}" class="text-white text-xl hover:bg-blue-800 font-semibold rounded-lg bg-blue-600 hover:text-white focus:outline-none focus:shadow-outline focus:bg-gray-100 hover:shadow-xs p-3 my-4 focus:bg-gradient-to-tl from-green-400 via-sky-600 to-indigo-900 focus:text-white">Retour</a>
+    </div>
+
+</div>
+</div>
+<!-- End of the new integration -->
+{% endblock %}

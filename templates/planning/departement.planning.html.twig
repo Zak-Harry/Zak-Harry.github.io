@@ -1,0 +1,91 @@
+{% extends 'sidebar.html.twig' %}
+
+{% block title %}QuickWork - Planning du département : {{ userLogged.departement.name}}{% endblock %}
+
+{% block page_contents %}
+
+<!--  !PARTIE CENTRALE-->
+<div class="fixed flex flex-col h-full w-full ml-14 mb-10 md:ml-64 bg-slate-100 dark:bg-slate-800 dark:text-white overflow-auto">
+
+  <!-- Title (accueil) -->
+  <div class="pl-24 pt-24">
+      <p class="text-4xl">Planning du département :</p>
+      <p class="text-2xl indent-8">{{userLogged.departement.name}}</p>
+  </div>
+  <div class="pl-24 my-10">
+    <a href="{{ path('planned_work_days_new')}}" class="block max-w-fit text-white bg-blue-600 font-semibold rounded-lg hover:bg-blue-900 hover:text-white focus:outline-none p-3 mt-5 focus:bg-gradient-to-tl from-green-400 via-sky-600 to-indigo-900 focus:text-white">Nouveau planning</a>
+  </div>
+
+
+  <!-- Liste des users du département -->
+   <div class="py-4 md:py-7 px-4 md:px-8 xl:px-14">
+
+    <div class="grid grid-cols-1 content-start">
+        {% for i in 0..nbUser %}
+        
+        {% if hpw.hoursPerWeek(dptUser[i]) != null %}
+            <div class=" inline-flex my-8">
+
+                <div class="bg-white pt-5 pb-8 px-5 rounded-tl-lg rounded-bl-lg border-l-4 border-blue-600  dark:bg-slate-900 dark:text-white text-center z-0 w-[18rem]">
+                    <div class="image overflow-hidden m-auto ">
+                        <img class="h-auto w-full mx-auto" src="{{ dptUser[i].picture}}" alt="">
+                    </div>
+                    <h1 class="text-gray-900 dark:text-white font-bold text-xl leading-8 my-4">{{ dptUser[i].fullname}} </h1>
+                    
+                    <div class="py-2 px-8 bg-indigo-100 text-indigo-700 rounded-full">
+                        <p>Total semaine : </p>
+                        <p>{{ hpw.hoursPerWeek(dptUser[i]) }}</p>
+                    </div>
+                </div>           
+            
+                <table class="tableDepPlanning text-center z-10">
+                    <thead>    
+                        <tr class="bg-blue-800 dark:bg-blue-600 text-center text-white uppercase text-sm">
+                            <th class="h-16 p-4 pl-8 rounded-tl-lg">Date</th>
+                            <th class="p-4 pl-8">Début de journée</th>
+                            <th class="p-4 pl-8">Début de pause repas</th>
+                            <th class="p-4 pl-8">Fin de pause repas</th>
+                            <th class="p-4 pl-8">Fin de journée</th>
+                            <th class="p-4 pl-8">Heures planifiées</th>
+                            {% if dptUser[i].id != userLogged.id %}
+                            <th class="p-4 pl-8 pr-8 rounded-tr-lg">Modifier</th>
+                            {% endif %}
+                        </tr>
+                    </thead>
+
+                    <tbody class="tbodyDepPlanning">
+                        {% for user in dptUser[i].plannedWorkDays %} 
+                            {% set weekDay = ['lundi 21/03/22', 'mardi 22/03/22', 'mercredi 23/03/22', 'jeudi 24/03/22', 'vendredi 25/03/22'] %}
+                        <tr class="hover:bg-slate-50 dark:hover:bg-slate-800 border-t border-slate-300">  
+                            <td class="py-4 px-6">{{ cycle(weekDay, loop.index -1 )}}</td>
+                            <td class="py-4 px-6">{{ user.startshift ? user.startshift|date('H:i') : '' }}</td>
+                            <td class="py-4 px-6">{{ user.startlunch ? user.startlunch|date('H:i') : '' }}</td>
+                            <td class="py-4 px-6">{{ user.endlunch ? user.endlunch|date('H:i') : '' }}</td>
+                            <td class="py-4 px-6">{{ user.endshift ? user.endshift|date('H:i') : '' }}</td>
+                            <td class="py-4 px-6">{{ user.hoursplanned ? user.hoursplanned|date('H:i') : '' }}</td>
+                            {% if dptUser[i].id != userLogged.id %}
+                            {# Ajout du bouton edit #}
+                            <td class="py-4 px-6">
+                                <a href="{{ path('planned_work_days_edit', {'id': user.id}) }}">                        
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+                                    </svg>
+                                </a>
+                            </td>
+                            {% endif %}
+                        
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+                {% else %}
+                    <p class="text-sm">Il n'y a pas encore de planning pour ce salarié, cliquez <a class="max-w-fit text-blue-600 font-semibold hover:text-white " href="{{ path('planned_work_days_new') }}">ici</a> pour en créer un</p>
+                {% endif %}
+            {% endfor %}
+        </div>
+
+    </div>
+</div>
+{% endblock %}

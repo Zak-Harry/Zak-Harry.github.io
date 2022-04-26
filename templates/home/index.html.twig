@@ -1,0 +1,146 @@
+{% extends 'sidebar.html.twig' %}
+
+{% block title %}QuickWork - Accueil{% endblock %}
+
+{% block page_contents %}
+
+<script defer src="{{ asset('/js/pointage.js') }}"></script>
+
+<!-- Partie centrale -->
+<div class="fixed flex flex-col h-full ml-14 mb-10 md:ml-64 bg-slate-100 dark:bg-slate-800 dark:text-white w-full">
+
+  <!-- Title (accueil) -->
+  <div class="pl-24 py-14 pt-24">
+      <h1 class="text-6xl leading-6 text-blue-600 dark:text-white">Accueil</h1>
+  </div>
+
+  <!-- Message bienvenue + prénom + date-->
+  <div class="pl-24">
+    <h1 class="text-xl leading-6 ">Bonjour {{app.user.firstname}} !</h1>
+    <p>Nous sommes le {{ today }}.</p>
+  </div>
+
+<!-- Pointeuse -->
+{% if userPlannedThisDay == false %}
+  <div class=" block w-2/3 text-center text-xl p-10 m-16 h-auto bg-blue-200 dark:bg-slate-900 rounded-lg border dark:border-amber-500 ">
+
+    <div class="flex absolute h-10 w-10 m-2">
+        <span class="animate-ping absolute inline-flex h-full w-full rounded-full ">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-amber-500 dark:text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+          </svg>
+        </span>
+        <span class="relative inline-flex rounded-full h-4 w-4 "></span>
+    </div>
+    <div class="m-2">
+    <p>Vous ne pouvez pas déclarer votre journée en raison d'un manque de plannification ce jour.</p>
+    <p>Veuillez vous rapprocher de votre responsable.</p>
+    </div>
+  </div>
+
+{% else %}
+<div class="grid md:grid-cols-2 md:w-[40rem] lg:grid-cols-2 lg:w-[40rem] xl:grid-cols-4 xl:w-[62rem] p-4 gap-4 m-16">
+
+  <div id="startLog">
+    {% if userEffectiveWork.startlog is not defined %}
+      <div class="buttonPointageAnimated">
+        Début de journée 
+      </div>
+    {% else %}
+    <div class="buttonPointageLocked">
+        Début de journée 
+          {{ userEffectiveWork.startlog ? userEffectiveWork.startlog|date('H:i') : '' }}
+    </div>
+    {% endif %}
+  </div>
+ 
+  <div id="startLunch">  
+    {#Si debut de journée vide alors bouton grisé#}
+    {% if (
+      (userEffectiveWork.startlunch is not defined) and (userEffectiveWork.startlog is not defined) 
+      or (userEffectiveWork.startlunch is  null) and (userEffectiveWork.startlog is null)
+    ) %}
+      <div class="buttonPointageDisabled">
+        Début de pause repas 
+      </div>
+    {#Sinon si pause repas vide et debut de journée déclaré alors bouton animé#}
+    {%  elseif (userEffectiveWork.startlunch is null) and (userEffectiveWork.startlog is not null) %}
+      <div class="buttonPointageAnimated">
+        Début de pause repas 
+      </div>
+    {#Sinon bouton vert avec heure de début de pause repas#}
+    {% else %}
+    <div class="buttonPointageLocked">
+        Début de pause repas 
+          {{ userEffectiveWork.startlunch ? userEffectiveWork.startlunch|date('H:i') : '' }}
+    </div>
+    {% endif %}
+  </div>
+
+  <div id="endLunch">  
+    {#Si debut de repas vide alors bouton grisé#}    
+    {% if (
+      (userEffectiveWork.endlunch is not defined) and (userEffectiveWork.startlunch is not defined) 
+      or (userEffectiveWork.endlunch is  null) and (userEffectiveWork.startlunch is null)
+    ) %}
+      <div class="buttonPointageDisabled">
+        Fin de pause repas 
+      </div>
+    {#Sinon si pause repas vide et debut de journée déclaré alors bouton animé#}
+    {%  elseif (userEffectiveWork.endlunch is null) and (userEffectiveWork.startlunch is not null) %}
+      <div class="buttonPointageAnimated">
+        Fin de pause repas 
+      </div>
+    {#Sinon bouton vert avec heure de fin de pause repas#}
+    {% else %}
+    <div class="buttonPointageLocked">
+        Fin de pause repas 
+          {{ userEffectiveWork.endlunch ? userEffectiveWork.endlunch|date('H:i') : '' }}
+    </div>
+    {% endif %}
+  </div>
+
+  <div id="endLog">  
+    {#Si fin de repas vide alors bouton grisé#}
+    {% if (
+      (userEffectiveWork.endlunch is not defined) and (userEffectiveWork.endlog is not defined) 
+      or (userEffectiveWork.endlunch is  null) and (userEffectiveWork.endlog is null)
+    ) %}
+      <div class="buttonPointageDisabled">
+        Fin de journée 
+      </div>
+    {#Sinon si fin journée vide et fin de repas déclaré alors bouton animé#}
+    {%  elseif (userEffectiveWork.endlog is null) and (userEffectiveWork.endlunch is not null) %}
+      <div class="buttonPointageAnimated">
+        Fin de journée 
+      </div>
+    {#Sinon bouton vert avec heure de fin de journée#}
+    {% else %}
+    <div class="buttonPointageLocked">
+        Fin de journée 
+          {{ userEffectiveWork.endlog ? userEffectiveWork.endlog|date('H:i') : '' }}
+    </div>
+    {% endif %}
+  </div>
+
+</div>
+{% endif %}
+
+
+  <!-- Zone d'espacement-->
+  <div class="h-full bg-transparent">
+  </div>
+    
+  <!-- Zone d'information-->
+  <div class="w-2/3 text-center m-16 px-10 py-6 h-auto dark:bg-slate-900 rounded-lg border border-slate-500">
+    <h1 class="text-xl leading-6 pt-8 font-semibold">Communication entreprise</h1>
+    <p class="text-xl px-8 m-4 text-justify">Nous organisons pour le vendredi 18 mars 2022 un dîner d'entreprise. Tout le monde sera le bienvenue ! Au menu : apéro dînatoire et cocktails à volonté.</p>
+  </div>
+
+  <!-- Zone d'espacement-->
+  <div class="h-10 mb-24 bg-transparent">
+  </div>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,70 @@
+{% extends 'sidebar.html.twig' %}
+
+{% block title %}Nouveau planning{% endblock %}
+
+{% block page_contents %}
+
+
+<!--  !PARTIE CENTRALE-->
+   
+<!-- Integration fo the new planning -->
+<div class="fixed flex flex-col ml-14 mb-10 md:ml-64 lg:ml-64 xl:ml-64 w-full h-full dark:bg-slate-800 dark:text-white overflow-auto">
+    <div class="w-[75rem]">
+        <!-- Title (accueil) -->
+        <div class="pl-10 sm:pl-24 py-14 pt-24">
+            <p class="text-4xl">Nouveau planning</p>   
+        </div>
+
+        <!-- Start TABLE -->    
+
+{{ form_start(planning) }}
+<div class="mx-auto">  
+            <div class="grid sm:grid-cols-1 xl:grid-cols-2"> 
+    <table class="w-[22rem] sm:w-[30rem] sm:m-4 shadow-xl dark:bg-slate-900 ">
+                    <tbody >
+                        <tr class="hover:bg-grey-lighter">
+                        <td class="py-4 px-6 border-b border-grey-light">Début de journée</td>
+                        <td class="py-4 px-6 text-left border-b border-grey-light text-black">
+                            {{ form_widget(planning.startshift) }} 
+                        </td>
+                        </tr>
+                        <tr class="hover:bg-grey-lighter">
+                        <td class="py-4 px-6 border-b border-grey-light">Début de pause repas</td>
+                        <td class="py-4 px-6 text-left border-b border-grey-light text-black">
+                            {{ form_widget(planning.startlunch) }}
+                        </td>
+                        </tr>
+                        <tr class="hover:bg-grey-lighter">
+                        <td class="py-4 px-6 border-b border-grey-light">Fin de pause repas</td>
+                        <td class="py-4 px-6 text-left border-b border-grey-light text-black">
+                            {{ form_widget(planning.endlunch) }}
+                        </td>
+                        </tr>
+                        <tr class="hover:bg-grey-lighter">
+                        <td class="py-4 px-6 border-b border-grey-light">Fin de journée</td>
+                        <td class="py-4 px-6 text-left border-b border-grey-light text-black">
+                            {{ form_widget(planning.endshift) }}
+                        </td>
+                        </tr>
+                        <tr class="hover:bg-grey-lighter">
+                        <td class="py-4 px-6 border-b border-grey-light">Salariés</td>
+                        <td class="py-4 px-6 text-left border-b border-grey-light">
+                            {{ form_widget(planning.users) }}
+                        </td>
+                        </tr>
+                    </tbody>
+                </table>
+                </div>
+        </div>
+            <div class="w-[75rem] mb-10">
+        <!-- buttons save et back-->
+                <div class="m-20">
+                    <button class="block max-w-fit text-white bg-blue-600 font-semibold rounded-lg hover:bg-blue-900 hover:text-white focus:outline-none p-3 my-10 focus:bg-gradient-to-tl from-green-400 via-sky-600 to-indigo-900 focus:text-white">{{ button_label|default('Sauvegarder') }}</button>
+                    {{ form_errors(planning) }}
+                    {{ form_end(planning) }}
+                    <a class="block max-w-fit text-white bg-blue-600 font-semibold rounded-lg hover:bg-blue-900 hover:text-white focus:outline-none p-3 my-10 focus:bg-gradient-to-tl from-green-400 via-sky-600 to-indigo-900 focus:text-white" href="{{ path('planned_departement') }}">retour à la liste</a>
+                </div>
+            </div> 
+</div>
+<!-- End of the new integration -->
+{% endblock %}

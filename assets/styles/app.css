@@ -1,0 +1,105 @@
+@tailwind base;
+
+@tailwind components;
+
+@tailwind utilities;
+
+/* Components for templates/login/index.html.twig */
+.inputLoginMail {
+    @apply mx-auto my-2 w-64 rounded-md bg-gray-100 border-transparent focus:border-gray-600 focus:bg-white focus:ring-0 text-center
+}
+
+.inputLoginPassWord {
+    @apply my-2 w-64 rounded-md bg-gray-100 border-transparent focus:border-gray-600 focus:bg-white focus:ring-0 text-center
+}
+
+.buttonLoginValidate {
+    @apply my-2 w-52 h-10 rounded-md font-bold text-white bg-blue-900 hover:bg-gradient-to-r from-indigo-900 via-teal-600 to-green-400 hover:scale-110 ease-in-out duration-300
+}
+
+/* Compoenents for templates /home/index.html.twig */
+.buttonPointageAnimated {
+    @apply bg-blue-500 shadow-lg rounded-md flex items-center p-3 border-b-4 border-blue-600  text-white font-medium animate-pulse cursor-pointer
+}
+
+.buttonPointageLocked {
+    @apply bg-gradient-to-tl from-green-400 to-indigo-900 shadow-lg rounded-md flex items-center p-3 border-b-4 border-green-600  text-white font-medium
+}
+
+.buttonPointageDisabled {
+    @apply bg-slate-400 shadow-lg rounded-md flex items-center  p-3 border-b-4 border-slate-500  text-white font-medium
+}
+
+/* Components for templates/documentation/index.html.twig */
+
+.buttonSectionDocumentation {
+    @apply cursor-pointer sm:w-[40rem] w-[24rem] mb-6
+}
+
+.divListDocumentations {
+    @apply flex flex-col pl-10 pb-5
+}
+
+.divListDocumentationsHidden {
+    @apply hidden
+}
+
+.linkDocumentations {
+    @apply bg-slate-300 m-2 p-4 rounded-md max-w-max hover:ring-2 transform transition hover:-translate-y-2 dark:text-white dark:bg-slate-900 ml-8
+}
+
+/* Components for templates/sidebar.html.twig */
+
+.linkSidebar {
+    @apply flex justify-start items-center 
+    rounded                                     
+    border-transparent 
+    hover:shadow-md
+    hover:font-semibold
+    hover:text-white
+    hover:bg-blue-600
+    focus:bg-gradient-to-tl from-green-400 via-sky-600 to-indigo-900
+    focus:text-white
+    relative flex-row h-11 focus:outline-none
+    py-4
+}
+
+/* Components for templates/profil/index.html.twig and profilform.html.twig */
+
+.singleCellSecondSection {
+    @apply grid grid-cols-2 border-b border-slate-200 dark:border-slate-600 py-2
+}
+
+/* Components for templates/planning/user.planning.html.twig */
+
+.tbodyPlanningHidden {
+    @apply bg-slate-100 dark:bg-slate-900 hidden
+}
+
+.tbodyPlanning  {
+    @apply bg-slate-100 dark:bg-slate-900
+}
+
+.tableDayPlanning {
+    @apply w-[22rem] sm:w-[30rem] sm:m-4 shadow-xl dark:bg-slate-900  dark:focus:bg-slate-600
+}
+
+/* Components for templates/planning/comparative.planning.html.twig */
+
+.tableCompPlanning {
+    @apply w-[40rem] sm:m-4 shadow-xl dark:bg-slate-900  dark:focus:bg-slate-600
+}
+
+.tbodyCompPlanning {
+    @apply bg-slate-100 dark:bg-slate-900
+}
+
+/* Components for templates/planning/departement.planning.html.twig */
+
+.tableDepPlanning {
+    @apply shadow-xl dark:bg-slate-900  dark:focus:bg-slate-600
+}
+
+.tbodyDepPlanning {
+    @apply bg-slate-100 dark:bg-slate-900
+}

@@ -1,0 +1,57 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Log in!{% endblock %}
+
+{% block body %}
+
+
+<div class="bg-gradient-to-tl from-green-400 to-indigo-900 w-full h-screen">
+    
+    <div class="flex flex-col w-80 sm:w-96 pt-40 mx-auto text-center h-full">
+        
+        <!-- Title -->
+        <p class="text-6xl text-white font-bold z-20 mx-auto flex flex-col"> Quick
+            <span class="before:block before:absolute before:-inset-1 before:-skew-y-3 before:bg-blue-900 relative inline-block z-10 m-2">
+                <span class="relative text-white p-3">Work</span>
+            </span>
+        </p>
+
+        <!-- Formulaire de connexion -->
+        <!-- Installation du plugin tailwind/form via https://github.com/tailwindlabs/tailwindcss-forms -->
+        <form class="text-center bg-white bg-opacity-30 p-4 -mt-6 pt-6 z-0 rounded-md" action="#" method="POST">
+
+            {#
+            {% if error %}
+                <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+            {% endif %}
+
+            {% if app.user %}
+                <div class="mb-3">
+                    You are logged in as {{ app.user.username }}, <a href="{{ path('app_logout') }}">Logout</a>
+                </div>
+            {% endif %}
+            #}
+            
+            <h1 class="text-white font-bold text-2xl mt-8">Connexion</h1>
+            <input type="email" value="{{ last_username }}" name="email" id="inputEmail" autocomplete="email" autofocus class="inputLoginMail" placeholder="Entrer votre adresse mail" required>
+            <input type="password" name="password" id="inputPassword" autocomplete="current-password" class="inputLoginPassWord" placeholder="Entrer votre mot de passe" required>
+
+            <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+
+            {#
+            Uncomment this section and add a remember_me option below your firewall to activate remember me functionality.
+            See https://symfony.com/doc/current/security/remember_me.html
+             #}
+            <div class="checkbox my-3 font-base">
+                <label>
+                    <input type="checkbox" name="_remember_me"> Se souvenir de moi
+                </label>
+            </div>
+           
+
+            <button type="submit" class="buttonLoginValidate">Valider</button>
+        </form> 
+    
+    </div>
+</div>
+{% endblock %}
